@@ -14,7 +14,11 @@ dotenv.config({
 if (
   !process.env.GITHUB_REPO_URL ||
   !process.env.GITHUB_REPO_NAME ||
-  !process.env.DEDICATED_SERVER_PATH
+  !process.env.DEDICATED_SERVER_PATH ||
+  process.env.GITHUB_REPO_URL ==
+    "https://github.com/YOUR_USER/YOUR_USER.github.io" ||
+  !process.env.GITHUB_REPO_NAME == "YOUR_USER.github.io.git" ||
+  !process.env.DEDICATED_SERVER_PATH == "YOUR_AMS2_DEDICATED_SERVER_PATH"
 ) {
   console.log(
     "Environment github acccount or AMS2 dedicated server path configuration missing!"
@@ -127,15 +131,24 @@ fs.watchFile(
                       .push((err) => {
                         if (err) throw err;
                         console.log("push done.");
+                      })
+                      .catch((err) => {
+                        console.log(
+                          "\nRace results auto-upload failed. You can still manually commit the results to make them visible in your repository.\nEnsure you have identified your username and name locally in order to commit. More details about the error found below:\n"
+                        );
+                        console.log(err);
+                      })
+                      .finally(() => {
+                        console.log("\n\nSeeking for new results...");
                       });
                   });
-                console.log("New race result logged.");
+                console.log("\nNew race result logged: " + fileName);
               }
             );
           }
         );
       }
     }
-    console.log(lastSession);
+    // console.log(lastSession);
   }
 );
