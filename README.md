@@ -10,22 +10,20 @@ Automobilista 2 is a cutting-edge racing simulator that brings an immersive moto
 
 ## Repository Structure
 
-- **Results:** This folder will contain the race results (in `.json` format) to enable different uses, from casual review to statistical analysis.
-- **Logs:** Any raw game data or logs related to race outcomes will be stored here for reference.
-- **Events:** This directory will organize results by event, date, and type of race (e.g., open-wheel, touring car, GT).
+- **Race logs:** Any raw game data or logs (in `.json` format) related to race outcomes will be stored here for reference.
+- **Sim results remote report:** This folder will contain the race results report generated (in `.json` format) to enable different uses, from casual review to statistical analysis in https://simresults.net/.
+- **Server app:** This directory will contain the application that must be running on the same AMS2 dedicated server machine in order to auto-upload the last finished race results to this repository (it ignores the previos sessions that have been finished while this app was not running).
 
 ## How to Use This Repository
 
-Feel free to explore the folders to access race results from past events. You can use the data to:
+This is still a work in progress project. Feel free to explore the folders to access race results from past events. You can use the data to:
 
 - Analyze race performance
 - Review race incidents
-- Check leaderboard standings
 - Share race outcomes with others
 
 Results will be updated regularly as races are completed.
 
 ## Contributions
 
-If you have additional race results to contribute or suggestions for improving the organization of the data, feel free to submit a pull request or open an issue.
-You can copy and paste this directly into your README.md file. Let me
+If you have additional race results to contribute or suggestions for improving the organization of the data, feel free to open an issue.
