@@ -149,6 +149,6 @@ fs.watchFile(
         );
       }
     }
-    console.log(lastSession);
+    // console.log(lastSession);
   }
 );
