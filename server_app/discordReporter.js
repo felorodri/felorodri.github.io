@@ -45,7 +45,7 @@ function discordWebHookPublisher(
           "\nRace results discord auto-publish failed. More details about the error found below:\n"
         );
         console.log(err);
-        reject("Race results discord auto-publish failed.");
+        // reject("Race results discord auto-publish failed.");
       });
   });
 }
