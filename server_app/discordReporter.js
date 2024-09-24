@@ -31,20 +31,6 @@ function discordWebHookPublisher(
   };
 
   return axios.post(webhookUrl, data);
-  // .then((res) => {
-  //   // console.log(`Status: ${res.status}`);
-  //   if (res.status == 204) {
-  //     console.log("New race results published on discord!");
-  //     resolve(1);
-  //   }
-  // })
-  // .catch((err) => {
-  //   console.log(
-  //     "\nRace results discord auto-publish failed. More details about the error found below:\n"
-  //   );
-  //   console.log(err);
-  //   reject(0);
-  // });
 }
 
 module.exports = { discordWebHookPublisher };

@@ -114,7 +114,6 @@ fs.watchFile(
               "utf8",
               (err) => {
                 if (err) throw err;
-                // when using a chain
                 simpleGit()
                   .exec(() => console.log("Starting pull..."))
                   .pull((err, update) => {
@@ -128,7 +127,6 @@ fs.watchFile(
                     simpleGit()
                       .add("../*")
                       .commit("Adding new race result: " + fileName)
-                      // .push(["-u", "origin", "main"], () => console.log("done"));
                       .exec(() => console.log("Starting push..."))
                       .push((err) => {
                         if (err) throw err;
@@ -158,31 +156,32 @@ fs.watchFile(
                           Promise.all(discordPromises)
                             .then((responses) => {
                               responses.forEach((value, index) => {
+                                const i = index + 1;
                                 if (
                                   value.status == 204 &&
                                   value.request.host == "discordapp.com"
                                 ) {
                                   console.log(
                                     "New race results published on discord channel " +
-                                      index +
-                                      1 +
+                                      i +
                                       "!"
                                   );
                                 } else {
                                   console.log(
                                     "Could not publish the race result on discord channel " +
-                                      index +
-                                      1 +
+                                      i +
                                       "!"
                                   );
                                 }
                               });
+                              console.log("\nSeeking for new results...");
                             })
                             .catch((err) => {
                               console.log(
                                 "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
                               );
                               console.log(err);
+                              console.log("\nSeeking for new results...");
                             });
                         }
                       })
@@ -191,10 +190,11 @@ fs.watchFile(
                           "\nRace results auto-upload failed. You can still manually commit the results to make them visible in your repository.\nEnsure you have identified your username and name locally in order to commit. More details about the error found below:\n"
                         );
                         console.log(err);
-                      })
-                      .finally(() => {
                         console.log("\nSeeking for new results...");
                       });
+                    // .finally(() => {
+                    //   console.log("\nSeeking for new results...");
+                    // });
                   });
                 console.log("\nNew race result logged: " + fileName);
               }
@@ -203,6 +203,5 @@ fs.watchFile(
         );
       }
     }
-    // console.log(lastSession);
   }
 );
