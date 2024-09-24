@@ -30,14 +30,14 @@ function discordWebHookPublisher(
     attachments: [],
   };
 
-  return new Promise((resolve, reject) => {
+  new Promise((resolve, reject) => {
     axios
       .post(webhookUrl, data)
       .then((res) => {
         // console.log(`Status: ${res.status}`);
         if (res.status == 204) {
           console.log("New race results published on discord!");
-          Promise.resolve(1);
+          resolve(1);
         }
       })
       .catch((err) => {
@@ -45,7 +45,7 @@ function discordWebHookPublisher(
           "\nRace results discord auto-publish failed. More details about the error found below:\n"
         );
         console.log(err);
-        Promise.reject(0);
+        reject(0);
       });
   });
 }
