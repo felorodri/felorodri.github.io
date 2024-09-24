@@ -135,18 +135,29 @@ fs.watchFile(
                         console.log("Push done.");
                         // Publishing on discord
                         if (process.env.DISCORD_WEBHOOK_URL) {
-                          discordWebHookPublisher(
-                            process.env.DISCORD_WEBHOOK_URL,
-                            eventName,
-                            "https://simresults.net/remote?results=" +
-                              encodeURIComponent(
-                                "https://" +
-                                  GITHUB_REPO_NAME +
-                                  "/simresults_remote_report/" +
-                                  fileName +
-                                  ".json"
+                          webHooks = process.env.DISCORD_WEBHOOK_URL;
+                          webHooks = webHooks.replace(/\s/g, "");
+                          webHooks = webHooks.split(",");
+                          discordPromises = [];
+                          webHooks.forEach((webHook) => {
+                            discordPromises.push(
+                              discordWebHookPublisher(
+                                webHook,
+                                eventName,
+                                "https://simresults.net/remote?results=" +
+                                  encodeURIComponent(
+                                    "https://" +
+                                      GITHUB_REPO_NAME +
+                                      "/simresults_remote_report/" +
+                                      fileName +
+                                      ".json"
+                                  )
                               )
-                          );
+                            );
+                          });
+                          Promise.all(discordPromises).then((values) => {
+                            console.log(values); // [3, 1337, "foo"]
+                          });
                         }
                       })
                       .catch((err) => {
