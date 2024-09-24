@@ -18,7 +18,7 @@ if (
   !process.env.DEDICATED_SERVER_PATH ||
   process.env.GITHUB_REPO_URL ==
     "https://github.com/YOUR_USER/YOUR_USER.github.io" ||
-  !process.env.GITHUB_REPO_NAME == "YOUR_USER.github.io.git" ||
+  !process.env.GITHUB_REPO_NAME == "YOUR_USER.github.io" ||
   !process.env.DEDICATED_SERVER_PATH == "YOUR_AMS2_DEDICATED_SERVER_PATH"
 ) {
   console.log(
@@ -75,7 +75,12 @@ fs.watchFile(
               results: [
                 {
                   name: eventName,
-                  log: REPO_URL + "/race_logs/" + fileName + ".json",
+                  log:
+                    "https://" +
+                    GITHUB_REPO_NAME +
+                    "/race_logs/" +
+                    fileName +
+                    ".json",
                 },
               ],
               config: {
