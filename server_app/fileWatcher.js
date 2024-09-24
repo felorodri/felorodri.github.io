@@ -134,9 +134,9 @@ fs.watchFile(
                         if (err) throw err;
                         console.log("Push done.");
                         // Publishing on discord
-                        if (process.env.GITHUB_REPO_NAME) {
+                        if (process.env.DISCORD_WEBHOOK_URL) {
                           discordWebHookPublisher(
-                            process.env.GITHUB_REPO_NAME,
+                            process.env.DISCORD_WEBHOOK_URL,
                             eventName,
                             "https://simresults.net/remote?results=" +
                               encodeURIComponent(
