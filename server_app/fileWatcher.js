@@ -13,11 +13,8 @@ dotenv.config({
 });
 
 if (
-  !process.env.GITHUB_REPO_URL ||
   !process.env.GITHUB_REPO_NAME ||
   !process.env.DEDICATED_SERVER_PATH ||
-  process.env.GITHUB_REPO_URL ==
-    "https://github.com/YOUR_USER/YOUR_USER.github.io" ||
   !process.env.GITHUB_REPO_NAME == "YOUR_USER.github.io" ||
   !process.env.DEDICATED_SERVER_PATH == "YOUR_AMS2_DEDICATED_SERVER_PATH"
 ) {
@@ -27,7 +24,6 @@ if (
   process.exit(1);
 }
 const GITHUB_REPO_NAME = process.env.GITHUB_REPO_NAME;
-const REPO_URL = process.env.GITHUB_REPO_URL;
 const DEDICATED_SERVER_PATH = process.env.DEDICATED_SERVER_PATH;
 // const REMOTE = `https://${USER}:${PASS}@${REPO}`;
 
@@ -138,6 +134,20 @@ fs.watchFile(
                         if (err) throw err;
                         console.log("Push done.");
                         // Publishing on discord
+                        if (process.env.GITHUB_REPO_NAME) {
+                          discordWebHookPublisher(
+                            process.env.GITHUB_REPO_NAME,
+                            eventName,
+                            "https://simresults.net/remote?results=" +
+                              encodeURIComponent(
+                                "https://" +
+                                  GITHUB_REPO_NAME +
+                                  "/race_logs/" +
+                                  fileName +
+                                  ".json"
+                              )
+                          );
+                        }
                       })
                       .catch((err) => {
                         console.log(
