@@ -30,20 +30,24 @@ function discordWebHookPublisher(
     attachments: [],
   };
 
-  axios
-    .post(webhookUrl, data)
-    .then((res) => {
-      // console.log(`Status: ${res.status}`);
-      if (res.status == 204) {
-        console.log("New race results published on discord!");
-      }
-    })
-    .catch((err) => {
-      console.log(
-        "\nRace results discord auto-publish failed. More details about the error found below:\n"
-      );
-      console.log(err);
-    });
+  return new Promise((resolve, reject) => {
+    axios
+      .post(webhookUrl, data)
+      .then((res) => {
+        // console.log(`Status: ${res.status}`);
+        if (res.status == 204) {
+          console.log("New race results published on discord!");
+          resolve("New race results published on discord!");
+        }
+      })
+      .catch((err) => {
+        console.log(
+          "\nRace results discord auto-publish failed. More details about the error found below:\n"
+        );
+        console.log(err);
+        reject("Race results discord auto-publish failed.");
+      });
+  });
 }
 
 module.exports = { discordWebHookPublisher };
