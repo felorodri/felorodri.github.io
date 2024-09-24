@@ -151,7 +151,9 @@ fs.watchFile(
                                       "/simresults_remote_report/" +
                                       fileName +
                                       ".json"
-                                  )
+                                  ).then(() => {
+                                    console.log("Test");
+                                  })
                               )
                             );
                           });
