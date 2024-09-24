@@ -56,7 +56,7 @@ fs.watchFile(
       if (lastSession.finished == true) {
         loggedData.stats.history = [lastSession];
         let eventName = loggedData.stats.server.name
-          .replace(/[^a-z0-9]/gi, "_")
+          .replace(/[^A-Z0-9]+/gi, "_")
           .toLowerCase();
         eventName = /^[^a-zA-Z0-9]/.test(eventName)
           ? eventName.substring(1)
