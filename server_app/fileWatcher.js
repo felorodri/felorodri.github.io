@@ -135,28 +135,18 @@ fs.watchFile(
                         console.log("Push done.");
                         // Publishing on discord
                         if (process.env.DISCORD_WEBHOOK_URL) {
-                          console.log(
+                          discordWebHookPublisher(
+                            process.env.DISCORD_WEBHOOK_URL,
+                            eventName,
                             "https://simresults.net/remote?results=" +
                               encodeURIComponent(
                                 "https://" +
                                   GITHUB_REPO_NAME +
-                                  "/race_logs/" +
+                                  "/simresults_remote_report/" +
                                   fileName +
                                   ".json"
                               )
                           );
-                          // discordWebHookPublisher(
-                          //   process.env.DISCORD_WEBHOOK_URL,
-                          //   eventName,
-                          //   "https://simresults.net/remote?results=" +
-                          //     encodeURIComponent(
-                          //       "https://" +
-                          //         GITHUB_REPO_NAME +
-                          //         "/race_logs/" +
-                          //         fileName +
-                          //         ".json"
-                          //     )
-                          // );
                         }
                       })
                       .catch((err) => {
@@ -166,7 +156,7 @@ fs.watchFile(
                         console.log(err);
                       })
                       .finally(() => {
-                        console.log("\n\nSeeking for new results...");
+                        console.log("\nSeeking for new results...");
                       });
                   });
                 console.log("\nNew race result logged: " + fileName);
