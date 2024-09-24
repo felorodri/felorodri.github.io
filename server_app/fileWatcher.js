@@ -135,9 +135,7 @@ fs.watchFile(
                         console.log("Push done.");
                         // Publishing on discord
                         if (process.env.DISCORD_WEBHOOK_URL) {
-                          discordWebHookPublisher(
-                            process.env.DISCORD_WEBHOOK_URL,
-                            eventName,
+                          console.log(
                             "https://simresults.net/remote?results=" +
                               encodeURIComponent(
                                 "https://" +
@@ -147,6 +145,18 @@ fs.watchFile(
                                   ".json"
                               )
                           );
+                          // discordWebHookPublisher(
+                          //   process.env.DISCORD_WEBHOOK_URL,
+                          //   eventName,
+                          //   "https://simresults.net/remote?results=" +
+                          //     encodeURIComponent(
+                          //       "https://" +
+                          //         GITHUB_REPO_NAME +
+                          //         "/race_logs/" +
+                          //         fileName +
+                          //         ".json"
+                          //     )
+                          // );
                         }
                       })
                       .catch((err) => {
