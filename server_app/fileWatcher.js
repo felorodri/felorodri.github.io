@@ -155,9 +155,33 @@ fs.watchFile(
                               )
                             );
                           });
-                          Promise.all(discordPromises).then((values) => {
-                            console.log(values); // [3, 1337, "foo"]
-                          });
+                          Promise.all(discordPromises)
+                            .then((responses) => {
+                              responses.forEach((value, index) => {
+                                if (
+                                  value.status == 204 &&
+                                  value.request.host == "discordapp.com"
+                                ) {
+                                  console.log(
+                                    "New race results published on discord channel " +
+                                      index +
+                                      "!"
+                                  );
+                                } else {
+                                  console.log(
+                                    "Could not publish the race result on discord channel " +
+                                      index +
+                                      "!"
+                                  );
+                                }
+                              });
+                            })
+                            .catch((err) => {
+                              console.log(
+                                "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
+                              );
+                              console.log(err);
+                            });
                         }
                       })
                       .catch((err) => {
