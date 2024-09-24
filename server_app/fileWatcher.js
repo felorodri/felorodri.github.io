@@ -165,12 +165,14 @@ fs.watchFile(
                                   console.log(
                                     "New race results published on discord channel " +
                                       index +
+                                      1 +
                                       "!"
                                   );
                                 } else {
                                   console.log(
                                     "Could not publish the race result on discord channel " +
                                       index +
+                                      1 +
                                       "!"
                                   );
                                 }
