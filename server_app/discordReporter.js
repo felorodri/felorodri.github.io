@@ -37,7 +37,7 @@ function discordWebHookPublisher(
         // console.log(`Status: ${res.status}`);
         if (res.status == 204) {
           console.log("New race results published on discord!");
-          resolve("New race results published on discord!");
+          Promise.resolve(1);
         }
       })
       .catch((err) => {
@@ -45,7 +45,7 @@ function discordWebHookPublisher(
           "\nRace results discord auto-publish failed. More details about the error found below:\n"
         );
         console.log(err);
-        // reject("Race results discord auto-publish failed.");
+        Promise.reject(0);
       });
   });
 }
