@@ -75,7 +75,7 @@ fs.watchFile(
               results: [
                 {
                   name: eventName,
-                  log: REPO_URL + "/race_logs/" + fileName,
+                  log: REPO_URL + "/race_logs/" + fileName + ".json",
                 },
               ],
               config: {
