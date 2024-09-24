@@ -4,6 +4,7 @@ const fs = require("fs");
 const json5 = require("json5");
 const simpleGit = require("simple-git");
 simpleGit().clean(simpleGit.CleanOptions.FORCE);
+const { discordWebHookPublisher } = require("./discordReporter.js");
 
 // Variable initialization
 dotenv.config({
@@ -130,7 +131,8 @@ fs.watchFile(
                       .exec(() => console.log("Starting push..."))
                       .push((err) => {
                         if (err) throw err;
-                        console.log("push done.");
+                        console.log("Push done.");
+                        // Publishing on discord
                       })
                       .catch((err) => {
                         console.log(
