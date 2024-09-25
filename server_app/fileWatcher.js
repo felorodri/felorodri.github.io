@@ -111,13 +111,12 @@ fs.watchFile(
                 dq_lose_points: "",
                 dnf_no_points: "0",
                 dnf_ignore_losing_points: "",
-                no_indexing: "1",
-                shorten_lastnames: "0",
-                shorten_firstnames: "0",
-                show_driver_ids: "1",
+                no_indexing: 1,
+                shorten_lastnames: 0,
+                shorten_firstnames: 0,
+                show_driver_ids: 1,
                 team: "0",
-                hide_aids: "0",
-                customize: "Customize",
+                hide_aids: 0,
               },
             };
             fs.writeFile(
