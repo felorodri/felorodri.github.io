@@ -155,24 +155,24 @@ function main() {
                               eventName,
                               publicResultURL,
                               90000
-                            );
+                            ).catch((err) => {
+                              console.log(err);
+                            });
                           }
                           // Scraping the result
-                          // let scrapResult = await performScraping(
-                          //   publicResultURL
-                          // );
-                          // console.log(scrapResult);
-                          // }, 90000);
+                          scrapResults(publicResultURL, 90000).catch((err) => {
+                            console.log(err);
+                          });
                         })
                         .catch((err) => {
                           console.log(
                             "\nRace results auto-upload failed. You can still manually commit the results to make them visible in your repository.\nEnsure you have identified your username and name locally in order to commit. More details about the error found below:\n"
                           );
                           console.log(err);
-                          console.log("\nSeeking for new results...");
+                          // console.log("\nSeeking for new results...");
                         })
                         .finally(() => {
-                          console.log("\nSeeking for new results...");
+                          console.log("\nSeeking for new results...\n");
                         });
                     });
                   console.log("\nNew race result logged: " + fileName);
@@ -221,10 +221,24 @@ function shareResultsInDiscord(eventName, publicResultURL, waitTimeInMs = 0) {
           console.log(
             "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
           );
-          console.log(err);
+          // console.log(err);
           reject(err);
           // console.log("\nSeeking for new results...");
         });
+    }, waitTimeInMs);
+  });
+}
+
+function scrapResults(publicResultURL, waitTimeInMs = 0) {
+  return new Promise((resolve, reject) => {
+    setTimeout(async () => {
+      try {
+        const resultData = await performScraping(publicResultURL);
+        console.log(resultData);
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
     }, waitTimeInMs);
   });
 }
