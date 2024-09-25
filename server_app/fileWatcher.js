@@ -5,6 +5,7 @@ const json5 = require("json5");
 const simpleGit = require("simple-git");
 simpleGit().clean(simpleGit.CleanOptions.FORCE);
 const { discordWebHookPublisher } = require("./discordReporter.js");
+const { performScraping } = require("./scraper.js");
 
 // Variable initialization
 dotenv.config({
@@ -61,6 +62,15 @@ fs.watchFile(
           ? eventName.substring(0, eventName.length - 1)
           : eventName;
         const fileName = eventName + "_" + lastSession.end_time;
+        const publicResultURL =
+          "https://simresults.net/remote?results=" +
+          encodeURIComponent(
+            "https://" +
+              GITHUB_REPO_NAME +
+              "/simresults_remote_report/" +
+              fileName +
+              ".json"
+          );
         fs.writeFile(
           "../race_logs/" + fileName + ".json",
           JSON.stringify(loggedData),
@@ -101,9 +111,10 @@ fs.watchFile(
                 dq_lose_points: "",
                 dnf_no_points: "0",
                 dnf_ignore_losing_points: "",
-                no_indexing: "0",
+                no_indexing: "1",
                 shorten_lastnames: "1",
                 shorten_firstnames: "0",
+                show_driver_ids: "1",
                 team: "0",
                 hide_aids: "0",
               },
@@ -131,6 +142,10 @@ fs.watchFile(
                       .push((err) => {
                         if (err) throw err;
                         console.log("Push done.");
+
+                        // Scraping the result
+                        let scrapResult = performScraping(publicResultURL);
+                        console.log(0, scrapResult);
                         // Publishing on discord
                         if (process.env.DISCORD_WEBHOOK_URL) {
                           webHooks = process.env.DISCORD_WEBHOOK_URL;
@@ -142,14 +157,7 @@ fs.watchFile(
                               discordWebHookPublisher(
                                 webHook,
                                 eventName,
-                                "https://simresults.net/remote?results=" +
-                                  encodeURIComponent(
-                                    "https://" +
-                                      GITHUB_REPO_NAME +
-                                      "/simresults_remote_report/" +
-                                      fileName +
-                                      ".json"
-                                  )
+                                publicResultURL
                               )
                             );
                           });
