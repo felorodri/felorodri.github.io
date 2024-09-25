@@ -78,7 +78,6 @@ fs.watchFile(
           (err) => {
             if (err) throw err;
             const sessionResultsReport = {
-              name: "No name league",
               results: [
                 {
                   name: eventName,
@@ -88,14 +87,6 @@ fs.watchFile(
                     "/race_logs/" +
                     fileName +
                     ".json",
-                  config: {
-                    no_indexing: "1",
-                    shorten_lastnames: "0",
-                    shorten_firstnames: "0",
-                    show_driver_ids: "1",
-                    team: "0",
-                    hide_aids: "0",
-                  },
                 },
               ],
             };
