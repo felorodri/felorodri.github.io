@@ -69,7 +69,8 @@ fs.watchFile(
               GITHUB_REPO_NAME +
               "/simresults_remote_report/" +
               fileName +
-              ".json"
+              ".json" +
+              "&version=2"
           );
         fs.writeFile(
           "../race_logs/" + fileName + ".json",
@@ -89,6 +90,35 @@ fs.watchFile(
                     ".json",
                 },
               ],
+              config: {
+                logo: "",
+                logo_link: "",
+                league: "",
+                league_link: "",
+                event: eventName,
+                event_link: "",
+                hide_sessions: "",
+                q_points: "",
+                q_points_by_class: "",
+                points: "",
+                points_by_class: "",
+                best_lap_points: "",
+                led_most_points: "",
+                laps_points_number: "",
+                laps_points: "",
+                stopgo_lose_points: "",
+                drivethrough_lose_points: "",
+                dnf_lose_points: "",
+                dq_lose_points: "",
+                dnf_no_points: "0",
+                dnf_ignore_losing_points: "",
+                no_indexing: "1",
+                shorten_lastnames: "0",
+                shorten_firstnames: "0",
+                show_driver_ids: "1",
+                team: "0",
+                hide_aids: "0",
+              },
             };
             fs.writeFile(
               "../simresults_remote_report/" + fileName + ".json",
