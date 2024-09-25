@@ -145,8 +145,8 @@ fs.watchFile(
                         console.log("Push done.");
 
                         // Scraping the result
-                        let scrapResult = performScraping(publicResultURL);
-                        console.log(0, scrapResult);
+                        // let scrapResult = performScraping(publicResultURL);
+                        // console.log(0, scrapResult);
                         // Publishing on discord
                         if (process.env.DISCORD_WEBHOOK_URL) {
                           webHooks = process.env.DISCORD_WEBHOOK_URL;
