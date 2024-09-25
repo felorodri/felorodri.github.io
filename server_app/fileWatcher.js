@@ -215,15 +215,12 @@ function shareResultsInDiscord(eventName, publicResultURL, waitTimeInMs = 0) {
             }
           });
           resolve();
-          // console.log("\nSeeking for new results...");
         })
         .catch((err) => {
           console.log(
             "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
           );
-          // console.log(err);
-          reject(err);
-          // console.log("\nSeeking for new results...");
+          throw new Error(err);
         });
     }, waitTimeInMs);
   });
@@ -231,14 +228,16 @@ function shareResultsInDiscord(eventName, publicResultURL, waitTimeInMs = 0) {
 
 function scrapResults(publicResultURL, waitTimeInMs = 0) {
   return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      try {
-        const resultData = await performScraping(publicResultURL);
-        console.log(resultData);
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
+    setTimeout(() => {
+      const resultData = performScraping(publicResultURL)
+        .then((value) => {
+          console.log(value);
+          resolve(value);
+        })
+        .catch((err) => {
+          throw new Error(err);
+        });
+      console.log(resultData);
     }, waitTimeInMs);
   });
 }
