@@ -146,9 +146,9 @@ function main() {
                           console.log("Push done.");
                           // Set 2 minutes of timeout to give time to build and publish to github pages
                           console.log(
-                            "Discord share message process (if apply) and results scraping were scheduled for the incoming 2 minutes."
+                            "Discord share message (if apply) and results scraping tasks were scheduled for the incoming 2 minutes."
                           );
-                          setTimeoutsetTimeout(async () => {
+                          setTimeout(async () => {
                             // Publishing on discord
                             if (process.env.DISCORD_WEBHOOK_URL) {
                               shareResults(eventName, publicResultURL);
