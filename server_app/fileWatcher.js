@@ -146,12 +146,16 @@ function main() {
                           console.log("Push done.");
                           // Set 2 minutes of timeout to give time to build and publish to github pages
                           console.log(
-                            "Discord share message (if apply) and results scraping tasks were scheduled for the incoming 2 minutes."
+                            "Discord share message (if apply) and results scraping tasks were scheduled for the incoming 90 seconds."
                           );
                           // setTimeout(async () => {
                           // Publishing on discord
                           if (process.env.DISCORD_WEBHOOK_URL) {
-                            shareResults(eventName, publicResultURL);
+                            shareResultsInDiscord(
+                              eventName,
+                              publicResultURL,
+                              90000
+                            );
                           }
                           // Scraping the result
                           // let scrapResult = await performScraping(
@@ -180,19 +184,6 @@ function main() {
       }
     }
   );
-}
-
-function shareResults(eventName, publicResultURL) {
-  return new Promise((resolve, reject) => {
-    // Simulate an asynchronous operation using setTimeout
-    setTimeout(() => {
-      const data = { id: 1, name: "John Doe" };
-      // Simulate a successful operation
-      resolve(data);
-      // Uncomment the next line to simulate an error
-      // reject(new Error('Failed to fetch data'));
-    }, 90000);
-  });
 }
 
 function shareResultsInDiscord(eventName, publicResultURL, waitTimeInMs = 0) {
