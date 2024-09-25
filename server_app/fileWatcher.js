@@ -170,10 +170,10 @@ function main() {
                           );
                           console.log(err);
                           console.log("\nSeeking for new results...");
+                        })
+                        .finally(() => {
+                          console.log("\nSeeking for new results...");
                         });
-                      // .finally(() => {
-                      //   console.log("\nSeeking for new results...");
-                      // });
                     });
                   console.log("\nNew race result logged: " + fileName);
                 }
@@ -188,43 +188,44 @@ function main() {
 
 function shareResultsInDiscord(eventName, publicResultURL, waitTimeInMs = 0) {
   return new Promise((resolve, reject) => {
-    if (waitTimeInMs != 0) {
-      setTimeout(() => {}, waitTimeInMs);
-    }
-    webHooks = process.env.DISCORD_WEBHOOK_URL;
-    webHooks = webHooks.replace(/\s/g, "");
-    webHooks = webHooks.split(",");
-    discordPromises = [];
-    webHooks.forEach((webHook) => {
-      discordPromises.push(
-        discordWebHookPublisher(webHook, eventName, publicResultURL)
-      );
-    });
-    Promise.all(discordPromises)
-      .then((responses) => {
-        responses.forEach((value, index) => {
-          const i = index + 1;
-          if (value.status == 204 && value.request.host == "discordapp.com") {
-            console.log(
-              "New race results published on discord channel " + i + "!"
-            );
-          } else {
-            console.log(
-              "Could not publish the race result on discord channel " + i + "!"
-            );
-          }
-        });
-        resolve();
-        // console.log("\nSeeking for new results...");
-      })
-      .catch((err) => {
-        console.log(
-          "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
+    setTimeout(() => {
+      webHooks = process.env.DISCORD_WEBHOOK_URL;
+      webHooks = webHooks.replace(/\s/g, "");
+      webHooks = webHooks.split(",");
+      discordPromises = [];
+      webHooks.forEach((webHook) => {
+        discordPromises.push(
+          discordWebHookPublisher(webHook, eventName, publicResultURL)
         );
-        console.log(err);
-        reject(err);
-        // console.log("\nSeeking for new results...");
       });
+      Promise.all(discordPromises)
+        .then((responses) => {
+          responses.forEach((value, index) => {
+            const i = index + 1;
+            if (value.status == 204 && value.request.host == "discordapp.com") {
+              console.log(
+                "New race results published on discord channel " + i + "!"
+              );
+            } else {
+              console.log(
+                "Could not publish the race result on discord channel " +
+                  i +
+                  "!"
+              );
+            }
+          });
+          resolve();
+          // console.log("\nSeeking for new results...");
+        })
+        .catch((err) => {
+          console.log(
+            "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
+          );
+          console.log(err);
+          reject(err);
+          // console.log("\nSeeking for new results...");
+        });
+    }, waitTimeInMs);
   });
 }
 
