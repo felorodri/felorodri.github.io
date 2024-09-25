@@ -148,17 +148,17 @@ function main() {
                           console.log(
                             "Discord share message (if apply) and results scraping tasks were scheduled for the incoming 2 minutes."
                           );
-                          setTimeout(async () => {
-                            // Publishing on discord
-                            if (process.env.DISCORD_WEBHOOK_URL) {
-                              shareResults(eventName, publicResultURL);
-                            }
-                            // Scraping the result
-                            let scrapResult = await performScraping(
-                              publicResultURL
-                            );
-                            console.log(scrapResult);
-                          }, 90000);
+                          // setTimeout(async () => {
+                          // Publishing on discord
+                          if (process.env.DISCORD_WEBHOOK_URL) {
+                            shareResults(eventName, publicResultURL);
+                          }
+                          // Scraping the result
+                          // let scrapResult = await performScraping(
+                          //   publicResultURL
+                          // );
+                          // console.log(scrapResult);
+                          // }, 90000);
                         })
                         .catch((err) => {
                           console.log(
@@ -183,38 +183,58 @@ function main() {
 }
 
 function shareResults(eventName, publicResultURL) {
-  webHooks = process.env.DISCORD_WEBHOOK_URL;
-  webHooks = webHooks.replace(/\s/g, "");
-  webHooks = webHooks.split(",");
-  discordPromises = [];
-  webHooks.forEach((webHook) => {
-    discordPromises.push(
-      discordWebHookPublisher(webHook, eventName, publicResultURL)
-    );
+  return new Promise((resolve, reject) => {
+    // Simulate an asynchronous operation using setTimeout
+    setTimeout(() => {
+      const data = { id: 1, name: "John Doe" };
+      // Simulate a successful operation
+      resolve(data);
+      // Uncomment the next line to simulate an error
+      // reject(new Error('Failed to fetch data'));
+    }, 90000);
   });
-  Promise.all(discordPromises)
-    .then((responses) => {
-      responses.forEach((value, index) => {
-        const i = index + 1;
-        if (value.status == 204 && value.request.host == "discordapp.com") {
-          console.log(
-            "New race results published on discord channel " + i + "!"
-          );
-        } else {
-          console.log(
-            "Could not publish the race result on discord channel " + i + "!"
-          );
-        }
-      });
-      console.log("\nSeeking for new results...");
-    })
-    .catch((err) => {
-      console.log(
-        "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
+}
+
+function shareResultsInDiscord(eventName, publicResultURL, waitTimeInMs = 0) {
+  return new Promise((resolve, reject) => {
+    if (waitTimeInMs != 0) {
+      setTimeout(() => {}, waitTimeInMs);
+    }
+    webHooks = process.env.DISCORD_WEBHOOK_URL;
+    webHooks = webHooks.replace(/\s/g, "");
+    webHooks = webHooks.split(",");
+    discordPromises = [];
+    webHooks.forEach((webHook) => {
+      discordPromises.push(
+        discordWebHookPublisher(webHook, eventName, publicResultURL)
       );
-      console.log(err);
-      console.log("\nSeeking for new results...");
     });
+    Promise.all(discordPromises)
+      .then((responses) => {
+        responses.forEach((value, index) => {
+          const i = index + 1;
+          if (value.status == 204 && value.request.host == "discordapp.com") {
+            console.log(
+              "New race results published on discord channel " + i + "!"
+            );
+          } else {
+            console.log(
+              "Could not publish the race result on discord channel " + i + "!"
+            );
+          }
+        });
+        resolve();
+        // console.log("\nSeeking for new results...");
+      })
+      .catch((err) => {
+        console.log(
+          "\nRace results discord auto-publish failed. If the message was intended to be sent to multiple channels, some of those channels may be received the race result. More details about the error found below:\n"
+        );
+        console.log(err);
+        reject(err);
+        // console.log("\nSeeking for new results...");
+      });
+  });
 }
 
 main();
