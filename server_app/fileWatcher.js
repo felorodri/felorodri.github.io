@@ -69,9 +69,9 @@ fs.watchFile(
               GITHUB_REPO_NAME +
               "/simresults_remote_report/" +
               fileName +
-              ".json" +
-              "&version=2"
-          );
+              ".json"
+          ) +
+          "&version=2";
         fs.writeFile(
           "../race_logs/" + fileName + ".json",
           JSON.stringify(loggedData),
